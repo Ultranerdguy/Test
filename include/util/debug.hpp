@@ -17,8 +17,21 @@ inline void Log(Ts const&... args)
   (line << ... << args);
   std::clog << line.data.str() << '\n';
 }
+#define DebugLog(...) \
+{\
+  Log(__FILE__, " > ", __LINE__, ": ", __VA_ARGS__);\
+}
+
+#define DebugThrow(class, message) \
+{\
+  std::stringstream _debug_throw_stream;\
+  _debug_throw_stream << __FILE__ << " > " << __LINE__ << ": " << message << '\n';\
+  throw class(_debug_throw_stream.str().c_str());\
+}
 #else
 #define Log(...) ;
+#define DebugLog(...) ;
+#define DebugThrow(...) ;
 #endif // #ifndef NDEBUG
 
 #endif // #ifndef _TEST_UTIL_DEBUG_LOG_HPP_
