@@ -5,6 +5,8 @@
 class App
 {
 public:
+  App();
+  ~App();
   int Run() noexcept
   {
     try
@@ -28,10 +30,11 @@ private:
   {
     while (m_running)
     {
-      
+      LoopStep();
     }
   }
-
+  void Init();
+  void LoopStep();
   std::atomic_bool m_running = true;
 };
 
@@ -39,4 +42,20 @@ int main()
 {
   App mainGame;
   return mainGame.Run();
+}
+
+App::App()
+{
+  Log("Initialised");
+}
+
+App::~App()
+{
+  Log("Exiting");
+}
+
+void App::LoopStep()
+{
+  Log("Loop");
+  m_running = false;
 }
