@@ -41,8 +41,13 @@ namespace util
   template <typename T, T size = T(), T... sizes>
   constexpr T min_v = min<T, size, sizes...>::value;
 
+  // sign(T val)
+  // For a templated numeric type T, returns
+  // -1 if val < 0
+  //  0 if val == 0
+  // +1 if val > 0
   template <typename T>
-  int sign(T val) 
+  constexpr int sign(T val) noexcept
   {
     return (T(0) < val) - (val < T(0));
   }

@@ -10,7 +10,7 @@ namespace util
   public:
     watcher_thread()
     {
-      m_updateLoop.swap(std::thread([this]
+      std::thread newThread([this]
       {
         while (true)
         {
@@ -25,7 +25,8 @@ namespace util
             }
           }
         }
-      }));
+      });
+      m_updateLoop.swap(newThread);
     }
     void Add(util::file_watcher* pWatcher)
     {

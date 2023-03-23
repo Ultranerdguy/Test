@@ -2,6 +2,7 @@
 #define _TEST_UTIL_DEBUG_LOG_HPP_
 
 #ifndef NDEBUG
+#include <iostream>
 #include <sstream>
 struct add_space{std::stringstream data;};
 template <typename T>
@@ -11,7 +12,7 @@ inline add_space& operator<<(add_space& l, T const& r)
   return l;
 }
 template <typename ...Ts>
-inline void Log(Ts const&... args)
+inline void Log(Ts const&... args) noexcept
 {
   add_space line;
   (line << ... << args);
@@ -19,7 +20,7 @@ inline void Log(Ts const&... args)
 }
 #define DebugLog(...) \
 {\
-  Log(__FILE__, " > ", __LINE__, ": ", __VA_ARGS__);\
+  Log(__FILE__, ">", __LINE__, ":", __VA_ARGS__);\
 }
 
 #define DebugThrow(class, message) \
