@@ -6,8 +6,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(CTest)
 
+# Project files (include and source)
 include_directories(include)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 add_executable(TestProj app/app.cpp app/main.cpp)
-add_subdirectory(src)
-target_link_libraries(TestProj TestSrc)
+
+# All "packages" consumed
+add_subdirectory(packages)
+
+# Link packages into main project
+target_link_libraries(TestProj Util_libs Terminal_libs)
+target_include_directories(TestProj PRIVATE Util_include Terminal_include)
