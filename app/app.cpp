@@ -1,9 +1,10 @@
 #include "app.hpp"
+#include <system_error>
 #include "util/debug.hpp"
 
 App::App()
 {
-
+ ProcLog("Initialised");
 }
 
 App::~App()
@@ -17,15 +18,21 @@ int App::Run() noexcept
   {
     MainLoop();
   }
-  catch(const std::exception& e)
+  catch (std::system_error const& e)
   {
-    Log(e.what());
-    return 1;
+    ProcLog(e.code().value(), "- \"", e.code().message(), "\" -", e.what());
+    return e.code().value();
+  }
+  catch(std::exception const& e)
+  {
+    ProcLog(e.what());
+    return errno;
   }
   catch (...)
   {
     DebugLog("Unknown exception caught");
-    return -1;
+    DebugLog("Error code:", std::make_error_condition((std::errc)errno).message());
+    return errno;
   }
   return 0;
 }
