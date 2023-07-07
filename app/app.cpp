@@ -1,6 +1,8 @@
 #include "app.hpp"
 #include <system_error>
 #include "util/debug.hpp"
+#include <unordered_map>
+#include <vector>
 
 App::App()
 {
@@ -9,7 +11,7 @@ App::App()
 
 App::~App()
 {
-
+ ProcLog("Destroying");
 }
 
 int App::Run() noexcept
