@@ -1,6 +1,7 @@
 #ifndef _TEST_APP_HPP_
 #define _TEST_APP_HPP_
 
+#include "util/debug.hpp"
 #include <atomic>
 
 class App
