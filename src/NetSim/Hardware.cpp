@@ -1,16 +1,16 @@
 #include "NetSim/Hardware.hpp"
 
-void Hardware::CreateSocket(Socket::PROTOCOL protocol)
+void Hardware::CreateSocket(Socket::SOCK_TYPE protocol)
 {
   m_sockets.emplace_back(protocol);
 }
 
-auto& Hardware::GetSockets() 
+Hardware::socket_storage_t& Hardware::GetSockets() 
 {
   return m_sockets;
 }
 
-auto const& Hardware::GetSockets() const
+Hardware::socket_storage_t const& Hardware::GetSockets() const
 {
   return m_sockets;
 }

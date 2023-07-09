@@ -7,11 +7,12 @@
 class Hardware
 {
 public:
-  void CreateSocket(Socket::PROTOCOL protocol);
-  auto& GetSockets();
-  auto const& GetSockets() const;
+  using socket_storage_t = std::vector<Socket>;
+  void CreateSocket(Socket::SOCK_TYPE protocol);
+  socket_storage_t& GetSockets();
+  socket_storage_t const& GetSockets() const;
 private:
-  std::vector<Socket> m_sockets{{Socket::PROTOCOL::ETHERNET}};
+  socket_storage_t m_sockets{{Socket::SOCK_TYPE::ETHERNET}};
 };
 
 #endif // #ifndef _TEST_NETSIM_HARDWARE_HPP_
