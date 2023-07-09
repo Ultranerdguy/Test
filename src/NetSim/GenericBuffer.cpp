@@ -1,4 +1,6 @@
 #include "NetSim/GenericBuffer.hpp"
+#include <cstring>
+#include <stdexcept>
 
 GenericBuffer::GenericBuffer(void const* pBuffer, std::size_t size)
 {
@@ -7,25 +9,30 @@ GenericBuffer::GenericBuffer(void const* pBuffer, std::size_t size)
   std::memcpy(copy.GetBuffer(), pBuffer, size);
   swap(copy);
 }
+
 GenericBuffer::GenericBuffer(std::size_t size)
 {
   m_pBuffer = malloc(size);
   if (m_pBuffer) m_bufferSize = size;
   else throw std::runtime_error("Malloc failed in GenericBuffer");
 }
+
 GenericBuffer::GenericBuffer(GenericBuffer const& cpy)
   : GenericBuffer(cpy.GetBufferSize())
 {
   std::memcpy(GetBuffer(), cpy.GetBuffer(), GetBufferSize());
 }
+
 GenericBuffer::GenericBuffer(GenericBuffer&& mv)
 {
   swap(mv);
 }
+
 GenericBuffer::~GenericBuffer()
 {
   free(m_pBuffer);
 }
+
 // Use value instead of either move or copy. The constructor can figure out which
 GenericBuffer& GenericBuffer::operator=(GenericBuffer b)
 {
@@ -47,7 +54,7 @@ std::size_t GenericBuffer::GetBufferSize() const
   return m_bufferSize;
 }
 
-void swap(GenericBuffer& b)
+void GenericBuffer::swap(GenericBuffer& b)
 {
   using std::swap;
   swap(m_pBuffer, b.m_pBuffer);

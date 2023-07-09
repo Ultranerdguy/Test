@@ -11,6 +11,10 @@ include_directories(include)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 add_executable(TestProj app/app.cpp app/main.cpp)
 
+# Add source code and link
+add_subdirectory(src)
+target_link_libraries(TestProj NetSim)
+
 # All "packages" consumed
 add_subdirectory(packages)
 

@@ -13,17 +13,17 @@ using PORT = std::uint16_t;
 class Socket : public IGenericIO
 {
 public:
-  enum class PROTOCOL {RAW, ETHERNET};
-  Socket(PROTOCOL proto = PROTOCOL::RAW);
+  enum class SOCK_TYPE {RAW, ETHERNET};
+  Socket(SOCK_TYPE type = SOCK_TYPE::RAW);
   void Connect(Socket* pTarget = nullptr);
-  PROTOCOL GetProtocol();
+  SOCK_TYPE GetProtocol();
   // Read pulls from this buffer
   virtual std::size_t Read(void* pBuffer, std::size_t maxSize) override;
   // Write pushes to connected buffer (overwriting existing buffer)
   virtual void Write(void const* pBuffer, std::size_t size) override;
   
 private:
-  PROTOCOL m_proto = PROTOCOL::RAW;
+  SOCK_TYPE m_type = SOCK_TYPE::RAW;
   Socket* m_pConnected = nullptr;
   GenericBuffer m_buffer{1<<10};
 };
