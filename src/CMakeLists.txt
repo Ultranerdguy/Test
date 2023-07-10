@@ -1,6 +1,1 @@
-add_library(NetSim 
-  NetSim/Computer.cpp
-  NetSim/GenericBuffer.cpp 
-  NetSim/Hardware.cpp 
-  NetSim/OSBase.cpp 
-  NetSim/Socket.cpp)
+add_library(TEST_SRC app.cpp)
