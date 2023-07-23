@@ -11,12 +11,14 @@ include_directories(include)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 add_executable(TestProj app/main.cpp)
 
-# Add source code and link
-add_subdirectory(src)
-target_link_libraries(TestProj TEST_SRC)
-
 # All "packages" consumed
 add_subdirectory(packages)
+
+# Add source code and link
+add_subdirectory(src)
+target_link_libraries(TEST_SRC Util_libs Terminal_libs)
+target_include_directories(TEST_SRC PRIVATE Util_include Terminal_include "include")
+target_link_libraries(TestProj TEST_SRC)
 
 # Link packages into main project
 target_link_libraries(TestProj Util_libs Terminal_libs)
