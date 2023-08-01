@@ -1,24 +1,41 @@
-#include "app.hpp"
+#include "App.hpp"
 #include <system_error>
 #include <unordered_map>
 #include <vector>
 #include "util/debug.hpp"
 
-// Commands
-#include "Commands/OminousReport.hpp"
-#include "Commands/Exit.hpp"
+// Singleton interface methods
+
+App App::app;
+
+int App::Run() noexcept
+{
+  return app.Run_Internal();
+}
+
+void App::RegisterCommand(std::string const& name, ICommandCreator const& command)
+{
+  app.commands.Register(name, command);
+}
+
+CommandManager& App::GetCommandManager()
+{
+  return app.commands;
+}
+
+void App::SetRunning(bool doRun)
+{
+  app.running = doRun;
+}
+
+// Instance methods
 
 App::App()
 {
   ProcLog("Initialising");
-  
-  commands.resize(2);
-  commands[0] = std::unique_ptr<ICommand>(new OminousReport);
-  commandMap["report"] = commands[0].get();
-  commands[1] = std::unique_ptr<ICommand>(new ExitCommand);
-  commandMap["exit"] = commandMap["quit"] = commands[1].get();
 
-  std::cin.exceptions(std::ios_base::failbit);
+  std::cin.exceptions(std::ios_base::badbit);
+
   ProcLog("Initialised");
 }
 
@@ -27,7 +44,7 @@ App::~App()
   ProcLog("Destroying");
 }
 
-int App::Run() noexcept
+int App::Run_Internal() noexcept
 {
   try
   {
@@ -77,6 +94,7 @@ void App::LoopStep()
     else ++itr;
   }
   std::cout.put('>');
+  if (!std::cin) std::cin.clear();
   std::string line;
   std::getline(std::cin, line);
   RunCommand(line);
@@ -89,10 +107,11 @@ void App::RunCommand(std::string const& commandFull)
   commandStream >> commandName;
   std::string args(std::istreambuf_iterator<char>(commandStream), {});
 
-  if (commandMap.contains(commandName))
+  auto pCommand = app.commands.Get(commandName);
+
+  if (pCommand)
   {
-    ICommand& command = *commandMap[commandName];
-    CreateProcess(&command, commandName, args);
+    app.CreateProcess(std::move(pCommand), commandName, args);
   }
   else
   {
@@ -100,21 +119,17 @@ void App::RunCommand(std::string const& commandFull)
   }
 }
 
-void App::CreateProcess(ICommand* pCommand, std::string const& commandName, std::string const& args)
+void App::CreateProcess(ICommand::ptr_t pCommand, std::string const& commandName, std::string const& args)
 {
   std::unique_ptr<Process> newProcess(new Process{*this});
   newProcess->id = ++processCount;
+  newProcess->pCommand = std::move(pCommand);
   newProcess->program = std::thread([=, newProcess = newProcess.get()]()
   {
-    pCommand->init(*newProcess);
-    pCommand->execute(commandName, args);
-    pCommand->cleanup();
+    newProcess->pCommand->init(*newProcess);
+    newProcess->pCommand->execute(commandName, args);
+    newProcess->pCommand->cleanup();
   });
   newProcess->program.join();
   // processes.emplace_back(std::move(newProcess));
-}
-
-void App::SetRunning(bool doRun)
-{
-  running = doRun;
 }
