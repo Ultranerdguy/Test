@@ -12,5 +12,16 @@ size_t tlRead(tlTerminalWindow* pWindow, char* pMessage, size_t maxLen)
 {
   DWORD written = (DWORD)0;
   ReadFile(pWindow->m_fileIn, pMessage, (DWORD)maxLen, &written, NULL);
-  return written;
+  return (size_t)written;
+}
+
+void tlClear(tlTerminalWindow* pWindow)
+{
+  COORD tl = {0,0};
+  CONSOLE_SCREEN_BUFFER_INFO s;  
+  GetConsoleScreenBufferInfo(pWindow->m_fileOut, &s);
+  DWORD written, cells = s.dwSize.X * s.dwSize.Y;
+  FillConsoleOutputCharacter(pWindow->m_fileOut, ' ', cells, tl, &written);
+  FillConsoleOutputAttribute(pWindow->m_fileOut, s.wAttributes, cells, tl, &written);
+  SetConsoleCursorPosition(pWindow->m_fileOut, tl);
 }

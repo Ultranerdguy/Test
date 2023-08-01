@@ -11,6 +11,8 @@ extern "C" {
 void tlWrite(tlTerminalWindow*, char const*, size_t);
 size_t tlRead(tlTerminalWindow*, char*, size_t);
 
+void tlClear(tlTerminalWindow*);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

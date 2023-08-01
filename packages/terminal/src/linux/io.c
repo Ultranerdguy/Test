@@ -10,3 +10,8 @@ size_t tlRead(tlTerminalWindow* pWindow, char* pMessage, size_t maxLen)
 {
   return read(pWindow->m_fileIn, pMessage, maxLen);
 }
+
+void tlClear(tlTerminalWindow* pWindow)
+{
+  // todo
+}

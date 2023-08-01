@@ -57,7 +57,7 @@ void SlowPrint(char const* p)
   }
 }
 
-void OminousReport::execute(std::string const& name, std::string const& args)
+void OminousReportCommand::execute(std::string const& name, std::string const& args)
 {
   Reports::Report& rep = Reports::reports[rand()%(sizeof(Reports::reports)/sizeof(Reports::Report))];
 

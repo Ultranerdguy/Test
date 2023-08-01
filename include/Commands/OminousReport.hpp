@@ -3,7 +3,7 @@
 
 #include "../ICommand.hpp"
 
-class OminousReport : public ICommand
+class OminousReportCommand : public ICommand
 {
 public:
   virtual void init(Process& proc) override {}; // Nop
