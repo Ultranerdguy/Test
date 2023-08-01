@@ -13,10 +13,9 @@ struct NotifyData
   NotifyData()
   {
     nID.cbSize = sizeof(nID);
-    nID.uVersion = NOTIFYICON_VERSION_4;
     nID.uFlags = NIF_REALTIME | NIF_TIP;
     nID.dwInfoFlags = NIIF_NONE;
-    nID.uTimeout = 5000;
+    nID.uVersion = NOTIFYICON_VERSION_4;
     char const title[] = "Warning";
     char const message[] = "A hostile entity has been detected and is rapidly approaching.";
     char const tip[] = "Notifications tip";
@@ -42,6 +41,7 @@ struct TestCommand : ICommand
     if (!args.empty())
     {
       std::memcpy(NotifyData::nID.szInfo, args.c_str(), min(args.size(), sizeof(NotifyData::nID.szInfo)));
+      if (args.size() < sizeof(NotifyData::nID.szInfo)) NotifyData::nID.szInfo[args.size()] = 0;
     }
     if (!Shell_NotifyIcon(NIM_MODIFY, &NotifyData::nID)) std::cerr << "Failed to notify\n";
   }
