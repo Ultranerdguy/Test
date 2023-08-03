@@ -1,0 +1,59 @@
+#ifndef _TEST_BUILD_INFO_HPP_
+#define _TEST_BUILD_INFO_HPP_
+
+#include "DoxygenMacros.hpp"
+
+/// @file build_info.hpp
+/// @brief Information relevant to the build
+ 
+// This file is automatically modified by CMake
+// Keep the contents relevant to versioning and
+// build definitions only
+
+/// @namespace BUILD
+/// @brief Contains all build information
+namespace BUILD
+{
+  /// @namespace BUILD::VERSION
+  /// @brief Contains the program version, as pulled from CMake
+  namespace VERSION
+  {
+    /// @var MAJOR
+    /// @brief The major version
+    constexpr int const MAJOR = IMPLEMENTATION_DEFINED(@TestProj_VERSION_MAJOR@);
+    /// @var MINOR 
+    /// @brief The minor version
+    constexpr int const MINOR = IMPLEMENTATION_DEFINED(@TestProj_VERSION_MINOR@);
+    /// @var PATCH 
+    /// @brief The patch version
+    constexpr int const PATCH = IMPLEMENTATION_DEFINED(@TestProj_VERSION_PATCH@);
+  }
+  
+  /// @var TYPE
+  /// @brief The build name (e.g. "Debug" or "Release")
+  constexpr char const* const TYPE  = IMPLEMENTATION_DEFINED("@CMAKE_BUILD_TYPE@");
+  /// @var APPNAME
+  /// @brief The program name
+  constexpr char const* const APPNAME = IMPLEMENTATION_DEFINED("@PROJECT_NAME@");
+  /// @var NAME_FULL
+  /// @brief The full name of the program (APPNAME_TYPE - MAJOR.MINOR.PATCH)
+  constexpr char const* const NAME_FULL = IMPLEMENTATION_DEFINED("@PROJECT_NAME@_@CMAKE_BUILD_TYPE@ - @TestProj_VERSION_MAJOR@.@TestProj_VERSION_MINOR@.@TestProj_VERSION_PATCH@");
+
+  /// @var SYSTEM
+  /// @brief The system name
+  constexpr char const* const SYSTEM = IMPLEMENTATION_DEFINED("@CMAKE_SYSTEM_NAME@");
+  /// @var C_COMPILER
+  /// @brief The compiler used for C files
+  constexpr char const* const C_COMPILER = IMPLEMENTATION_DEFINED("@CMAKE_C_COMPILER_ID@");
+  /// @var C_COMPILER_VERSION
+  /// @brief The compiler version of the C compiler
+  constexpr char const* const C_COMPILER_VERSION = IMPLEMENTATION_DEFINED("@CMAKE_C_COMPILER_VERSION@");
+  /// @var CXX_COMPILER
+  /// @brief The compiler used for C++ files
+  constexpr char const* const CXX_COMPILER = IMPLEMENTATION_DEFINED("@CMAKE_CXX_COMPILER_ID@");
+  /// @var CXX_COMPILER_VERSION
+  /// @brief The compiler version of the C++ compiler
+  constexpr char const* const CXX_COMPILER_VERSION = IMPLEMENTATION_DEFINED("@CMAKE_CXX_COMPILER_VERSION@");
+}
+
+#endif // #ifndef _TEST_BUILD_INFO_HPP_

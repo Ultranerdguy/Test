@@ -2,6 +2,7 @@
 #include "Commands/Exit.hpp"
 #include "Commands/OminousReport.hpp"
 #include "Commands/Clear.hpp"
+#include "BuildInfo.hpp"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -50,6 +51,11 @@ struct TestCommand : ICommand
 
 int main()
 {
+  std::clog << BUILD::NAME_FULL << '\n';
+  std::clog << BUILD::SYSTEM << '\n';
+  std::clog << "C   compiler: " << BUILD::C_COMPILER << " - " << BUILD::C_COMPILER_VERSION << '\n';
+  std::clog << "C++ compiler: " << BUILD::CXX_COMPILER << " - " << BUILD::CXX_COMPILER_VERSION << '\n';
+  
   NotifyData id;
   srand(static_cast<unsigned int>(time(nullptr)));
   App::RegisterCommand("exit", BasicCommandCreator<ExitCommand>{});

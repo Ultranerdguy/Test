@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(TestProj)
+project(TestProj VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,6 +9,8 @@ include(CTest)
 # Project files (include and source)
 include_directories(include)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories("${PROJECT_BINARY_DIR}/include")
+add_subdirectory(include)
 add_executable(TestProj app/main.cpp)
 
 # All "packages" consumed
