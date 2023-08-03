@@ -1,6 +1,6 @@
 # Packages
 
-These aren't packages available elsewhere (yet), just groups of functionality stored away in separate areas.
+These aren't externally obtained packages, but instead just groups of experimental functionality that I was interested in making, that don't really fit in the command system of the main project, but are useful nonetheless.
 
 | Package | Description |
 | - | - |
