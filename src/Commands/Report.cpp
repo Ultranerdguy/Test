@@ -1,4 +1,4 @@
-#include "Commands/OminousReport.hpp"
+#include "Commands/Report.hpp"
 #include "app.hpp"
 #include <thread>
 
@@ -14,24 +14,25 @@ namespace Reports
   };
 
   Report reports[] = {
-    {.name = "Fossilhound"
-    ,.abstract = "A fossilised dog that attacks unrelentingly"
-    ,.threatLevel = "Nuisance"
-    ,.location = "Edge of the world"
-    ,.protocol = "Run"
+    {.name = "Report A"
+    ,.abstract = "Sample information on report A"
+    ,.threatLevel = "0"
+    ,.location = "London, UK"
+    ,.protocol = "No action required"
     }
     ,
-    {.name = "End of the world"
-    ,.abstract = "Literally the end of the world"
-    ,.threatLevel = "Fatal to all earth-bound persons"
-    ,.location = "Earth"
-    ,.protocol = "Evacuate Earth, or lie down and wait for the end"
+    {.name = "Report B"
+    ,.abstract = "Sample information on report B"
+    ,.threatLevel = "5"
+    ,.location = "Tokyo, Japan"
+    ,.protocol = "Enjoy it while it lasts"
     }
     ,
-    {.name = "Goose"
-    ,.abstract = "Goose"
-    ,.threatLevel = "Goose"
-    ,.location = "Behind you"
+    {.name = "Report C"
+    ,.abstract = "Sample information on report C"
+    ,.threatLevel = "10"
+    ,.location = "new York, USA"
+    ,.protocol = "It's already too late"
     }
     ,
     {.name = ""

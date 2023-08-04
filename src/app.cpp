@@ -2,6 +2,7 @@
 #include <system_error>
 #include <unordered_map>
 #include <vector>
+#include <exception>
 #include "util/debug.hpp"
 
 // Singleton interface methods
@@ -124,12 +125,21 @@ void App::CreateProcess(ICommand::ptr_t pCommand, std::string const& commandName
   std::unique_ptr<Process> newProcess(new Process{*this});
   newProcess->id = ++processCount;
   newProcess->pCommand = std::move(pCommand);
-  newProcess->program = std::thread([=, newProcess = newProcess.get()]()
+  std::exception_ptr pException;
+  newProcess->program = std::thread([=, newProcess = newProcess.get(), &pException]()
   {
-    newProcess->pCommand->init(*newProcess);
-    newProcess->pCommand->execute(commandName, args);
-    newProcess->pCommand->cleanup();
+    try
+    {
+      newProcess->pCommand->init(*newProcess);
+      newProcess->pCommand->execute(commandName, args);
+      newProcess->pCommand->cleanup();
+    }
+    catch (...)
+    {
+      pException = std::current_exception();
+    }
   });
   newProcess->program.join();
+  if (pException) std::rethrow_exception(pException);
   // processes.emplace_back(std::move(newProcess));
 }
