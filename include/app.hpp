@@ -22,9 +22,9 @@ struct Process
 class App
 {
 public:
-  static App app;
-  static int Run() noexcept;
-  static void RegisterCommand(std::string const& name, ICommandCreator const& command);
+  App();
+  ~App();
+  void RegisterCommand(std::string const& name, ICommandCreator const& command);
 
   template <typename ...Ts>
   static inline void ProcLog(Ts... args) noexcept
@@ -32,14 +32,12 @@ public:
     Log("[App]", args...);
   }
 
-  static void SetRunning(bool doRun = true);
-  static void RunCommand(std::string const& commandFull);
-  static CommandManager& GetCommandManager();
+  int Run() noexcept;
+  void SetRunning(bool doRun = true);
+  void RunCommand(std::string const& commandFull);
+  CommandManager& GetCommandManager();
 
 private:
-  App();
-  ~App();
-  int Run_Internal() noexcept;
   void MainLoop();
   void LoopStep();
 

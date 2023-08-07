@@ -22,10 +22,11 @@ int main()
   std::clog << "C   compiler: " << BUILD::C_COMPILER << " - " << BUILD::C_COMPILER_VERSION << '\n';
   std::clog << "C++ compiler: " << BUILD::CXX_COMPILER << " - " << BUILD::CXX_COMPILER_VERSION << '\n';
 
-  App::RegisterCommand("exit", BasicCommandCreator<ExitCommand>{});
-  App::RegisterCommand("report", BasicCommandCreator<OminousReportCommand>{});
-  App::RegisterCommand("clear", BasicCommandCreator<ClearCommand>{});
-  App::RegisterCommand("notify", BasicCommandCreator<NotifyCommand>{});
-  App::RegisterCommand("test", BasicCommandCreator<TestCommand>{});
-  return App::Run();
+  App app;
+  app.RegisterCommand("exit", BasicCommandCreator<ExitCommand>{});
+  app.RegisterCommand("report", BasicCommandCreator<OminousReportCommand>{});
+  app.RegisterCommand("clear", BasicCommandCreator<ClearCommand>{});
+  app.RegisterCommand("notify", BasicCommandCreator<NotifyCommand>{});
+  app.RegisterCommand("test", BasicCommandCreator<TestCommand>{});
+  return app.Run();
 }

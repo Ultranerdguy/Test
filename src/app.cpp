@@ -7,26 +7,19 @@
 
 // Singleton interface methods
 
-App App::app;
-
-int App::Run() noexcept
-{
-  return app.Run_Internal();
-}
-
 void App::RegisterCommand(std::string const& name, ICommandCreator const& command)
 {
-  app.commands.Register(name, command);
+  commands.Register(name, command);
 }
 
 CommandManager& App::GetCommandManager()
 {
-  return app.commands;
+  return commands;
 }
 
 void App::SetRunning(bool doRun)
 {
-  app.running = doRun;
+  running = doRun;
 }
 
 // Instance methods
@@ -45,7 +38,7 @@ App::~App()
   ProcLog("Destroying");
 }
 
-int App::Run_Internal() noexcept
+int App::Run() noexcept
 {
   try
   {
@@ -108,11 +101,11 @@ void App::RunCommand(std::string const& commandFull)
   commandStream >> commandName;
   std::string args(std::istreambuf_iterator<char>(commandStream), {});
 
-  auto pCommand = app.commands.Get(commandName);
+  auto pCommand = commands.Get(commandName);
 
   if (pCommand)
   {
-    app.CreateProcess(std::move(pCommand), commandName, args);
+    CreateProcess(std::move(pCommand), commandName, args);
   }
   else
   {
